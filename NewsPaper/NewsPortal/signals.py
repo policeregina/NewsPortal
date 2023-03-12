@@ -6,12 +6,13 @@ from django.db.models.signals import m2m_changed, post_save, pre_save, pre_init
 from django.dispatch import receiver
 
 from .models import Post, SubscribersCAT, User
+from .tasks import notification_about_new_post
 
 
 @receiver(m2m_changed, sender=Post.post_cat.through)
 def notify_new_post(sender, instance, **kwargs):
+
     if kwargs['action'] == 'pre_add':
-        subject = f'Новая статья в любимой категории!'
         html_content = render_to_string('email_about_creating.html', {
             'news': instance
         })
@@ -22,18 +23,15 @@ def notify_new_post(sender, instance, **kwargs):
         list_of_sub = SubscribersCAT.objects.filter(rel_cat=cat_id).values('rel_user')
         sub = []
 
+        name = instance.post_name
+
         for i in list_of_sub:
             user_email = User.objects.get(id=i['rel_user']).email
             sub.append(user_email)
 
-        msg = EmailMultiAlternatives(
-                subject=subject,
-                body=instance.post_name,
-                from_email='p.seregina2015@yandex.ru',
-                to=sub)
+        notification_about_new_post.delay(name, sub, html_content)
 
-        msg.attach_alternative(html_content, "text/html")
-        msg.send()
+
 
 @receiver(post_save, sender=Post)
 def notify_new_post(sender, instance, **kwargs):

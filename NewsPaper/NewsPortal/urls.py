@@ -24,6 +24,6 @@ urlpatterns = [
    path('news/<int:pk>/delete', NewsDelete.as_view(), name = 'news_delete'),
    path('article/<int:pk>/delete', ArticleDelete.as_view(), name = 'article_delete'),
    path('<int:pk>', NewsDetail.as_view(), name = 'news_detail'),
-   path('search/', NewsList.as_view(template_name="news_search.html"), name = 'news_search')
+   path('search/', NewsList.as_view(template_name="news_search.html"), name = 'news_search'),
 
 ]

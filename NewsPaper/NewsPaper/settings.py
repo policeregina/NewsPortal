@@ -160,12 +160,11 @@ EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''  # пароль от почты
 EMAIL_USE_SSL = True
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
-
 APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
 APSCHEDULER_RUN_NOW_TIMEOUT = 25
 
-CELERY_BROKER_URL = 'redis://:jisB9ClBFpRjxeaHl3IBdrtVgDFpREKs@redis-13441.c245.us-east-1-3.ec2.cloud.redislabs.com:13441/11518225'
-CELERY_RESULT_BACKEND = 'redis://:jisB9ClBFpRjxeaHl3IBdrtVgDFpREKs@redis-13441.c245.us-east-1-3.ec2.cloud.redislabs.com:13441/11518225'
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'

@@ -11,6 +11,7 @@ from .models import Post, Category, SubscribersCAT, User, PostCategory
 from .filters import NewsFilter
 from .forms import NewsForm
 
+
 class NewsList(ListView):
     model = Post
     ordering = 'time_in'
@@ -41,7 +42,6 @@ class NewsCreate(PermissionRequiredMixin, CreateView):
     form_class = NewsForm
     model = Post
     template_name = 'news_edit.html'
-
 
     def form_valid(self, form):
         news = form.save(commit=False)
@@ -141,3 +141,6 @@ def subscribe_health(request):
     if not SubscribersCAT.objects.filter(rel_cat_id=3, rel_user_id=user.id):
         SubscribersCAT.objects.create(rel_cat_id=3, rel_user_id=user.id)
     return redirect('http://127.0.0.1:8000/categories/health/')
+
+
+
